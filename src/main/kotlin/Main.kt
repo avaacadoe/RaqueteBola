@@ -43,21 +43,23 @@ fun Game.moveRacket(x: Int): Game {
 
 fun Game.drawAndMove(canvas: Canvas): Game {
     racket.draw(canvas)
-
+    var new_new = this
     ballList.forEach {
-        it.draw(canvas)
 
         if(it.position.y < area.height) {
-            return Game(ballList + it.move(racket.x, area) - it, racket, area)
+            val new = it.move(racket.x, area)
+            new.draw(canvas)
+            new_new = Game(new_new.ballList + new - it, new_new.racket, new_new.area)
         } else {
             if(ballList.count() - 1 == 0) {
                 canvas.close()
             }
 
-            return Game(ballList - it, racket, area)
+            new_new = Game(new_new.ballList - it, new_new.racket, new_new.area)
         }
     }
-    return this
+
+    return new_new
 }
 
 fun main() {
