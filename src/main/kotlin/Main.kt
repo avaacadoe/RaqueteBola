@@ -95,10 +95,15 @@ fun Game.moveRacket(x: Int): Game {
 
 
 fun Game.draw(canvas: Canvas) {
+    canvas.erase()
+
     ballList.forEach {
         it.draw(canvas)
     }
     racket.draw(canvas)
+
+    canvas.drawText(width/2,(height*0.98).toInt(),game.ballList.count().toString(),WHITE,40)
+
 }
 
 fun main() {
@@ -109,9 +114,7 @@ fun main() {
 
 
         canvas.onTimeProgress(MILLISECONDS_BETWEEN_FRAMES) {
-            canvas.erase()
             game.draw(canvas)
-            canvas.drawText(width/2,(height*0.98).toInt(),game.ballList.count().toString(),WHITE,40)
 
             game.ballList.forEach {
                 if (it.position.y < 600) {
