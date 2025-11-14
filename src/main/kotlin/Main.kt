@@ -98,7 +98,7 @@ fun Game.draw(canvas: Canvas) {
     }
     racket.draw(canvas)
 
-    canvas.drawText(width/2,(height*0.98).toInt(),game.ballList.count().toString(),WHITE,40)
+    canvas.drawText(width/2,(height*0.98).toInt(),ballList.count().toString(),WHITE,40)
 
 }
 
