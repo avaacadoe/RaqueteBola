@@ -41,25 +41,15 @@ fun Game.moveRacket(x: Int): Game {
     return Game(ballList, racket.move(x, area), area)
 }
 
-fun Game.drawAndMove(canvas: Canvas): Game {
-    racket.draw(canvas)
-    var new_new = this
+fun Game.draw(canvas: Canvas) {
+    canvas.erase()
+
     ballList.forEach {
-
-        if(it.position.y < area.height) {
-            val new = it.move(racket.x, area)
-            new.draw(canvas)
-            new_new = Game(new_new.ballList + new - it, new_new.racket, new_new.area)
-        } else {
-            if(ballList.count() - 1 == 0) {
-                canvas.close()
-            }
-
-            new_new = Game(new_new.ballList - it, new_new.racket, new_new.area)
-        }
+        it.draw(canvas)
     }
+    racket.draw(canvas)
 
-    return new_new
+    canvas.drawText(width/2,(height*0.98).toInt(),ballList.count().toString(),WHITE,40)
 }
 
 fun main() {
@@ -70,13 +60,24 @@ fun main() {
 
 
         canvas.onTimeProgress(MILLISECONDS_BETWEEN_FRAMES) {
-            canvas.erase()
-            game = game.drawAndMove(canvas)
-            canvas.drawText(width/2,(height*0.98).toInt(),game.ballList.count().toString(),WHITE,40)
+            game.draw(canvas)
+
+            game.ballList.forEach {
+                if (it.position.y < 600) {
+                    game = Game(game.ballList + it.move(game.racket.x, game.area) - it, game.racket, game.area)
+                } else {
+                    game = Game(game.ballList - it, game.racket, game.area)
+
+                    if (game.ballList.count() == 0) {
+                        canvas.close()
+                    }
+
+                }
+            }
         }
-         canvas.onTimeProgress(BALL_SPAWN_TIME) {
-             game = game.addBall(randomBall())
-         }
+        canvas.onTimeProgress(BALL_SPAWN_TIME) {
+            game = game.addBall(randomBall())
+        }
         canvas.onMouseMove { me ->
             game = game.moveRacket(me.x)
         }
