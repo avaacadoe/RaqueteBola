@@ -14,43 +14,10 @@ val DY_RANGE = -4..4
 const val RACKET_LENGTH = 90
 const val RACKET_Y_PERCENTAGE_ON_SCREEN = 0.9
 
-class Racket(val x : Int)
-
 data class Area(val width : Int, val height : Int)
-data class Game(val ballList : List<Ball>, val racket : Racket, val area : Area)
 
 
-fun Racket.draw(canvas : Canvas) {
-    canvas.drawRect(x-RACKET_LENGTH/2, (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt(),RACKET_LENGTH,0,WHITE, 10)
 
-}
-
-fun Racket.move(newX : Int, area: Area): Racket {
-
-    if (newX - RACKET_LENGTH/2 < 0) return this
-    else if (newX + RACKET_LENGTH/2 > area.width) return this
-
-    return Racket(newX)
-}
-
-fun Game.addBall(ball: Ball): Game {
-    return Game(ballList + ball, racket, area)
-}
-
-fun Game.moveRacket(x: Int): Game {
-    return Game(ballList, racket.move(x, area), area)
-}
-
-fun Game.draw(canvas: Canvas) {
-    canvas.erase()
-
-    ballList.forEach {
-        it.draw(canvas)
-    }
-    racket.draw(canvas)
-
-    canvas.drawText(width/2,(height*0.98).toInt(),ballList.count().toString(),WHITE,40)
-}
 
 fun main() {
 
