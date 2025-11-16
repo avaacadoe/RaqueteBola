@@ -16,37 +16,34 @@ const val RACKET_Y_PERCENTAGE_ON_SCREEN = 0.9
 
 data class Area(val width : Int, val height : Int)
 
-
-
-
 fun main() {
 
     onStart {
-        var game = Game(listOf(), Racket(width/2), Area(width, height))
-        val canvas = Canvas(game.area.width, game.area.height, BLACK)
+        var game = Game(listOf(), Racket(width/2), Area(width, height)) // ponto em que o jogo é atulizado
+        val canvas = Canvas(game.area.width, game.area.height, BLACK) // desenha o canva
 
 
         canvas.onTimeProgress(MILLISECONDS_BETWEEN_FRAMES) {
-            game.draw(canvas)
+            game.draw(canvas) // desenha o canvas atualizado no game
 
             game.ballList.forEach {
                 if (it.position.y < 600) {
-                    game = Game(game.ballList + it.move(game.racket.x, game.area) - it, game.racket, game.area)
+                    game = Game(game.ballList + it.move(game.racket.x, game.area) - it, game.racket, game.area) // atualiza o game quando uma bola entra
                 } else {
-                    game = Game(game.ballList - it, game.racket, game.area)
+                    game = Game(game.ballList - it, game.racket, game.area) // atualiza o game quando uma bola sai
 
                     if (game.ballList.count() == 0) {
-                        canvas.close()
+                        canvas.close() // fecha o canva se não houver mais bolas no canvas
                     }
 
                 }
             }
         }
         canvas.onTimeProgress(BALL_SPAWN_TIME) {
-            game = game.addBall(randomBall())
+            game = game.addBall(randomBall()) // atualiza o game com uma nova bola na lista de bolas
         }
         canvas.onMouseMove { me ->
-            game = game.moveRacket(me.x)
+            game = game.moveRacket(me.x) // atualiza o game com a nova posição da raquete
         }
     }
 

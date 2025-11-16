@@ -1,32 +1,34 @@
 import pt.isel.canvas.Canvas
 import kotlin.math.abs
 
-data class Position (val x : Int, val y : Int)
-data class Velocity (val dx : Int, val dy :Int)
-class Ball (val position : Position, val velocity : Velocity)
+data class Position (val x : Int, val y : Int)// guarda os valores de posição da bola
+data class Velocity (val dx : Int, val dy :Int) // guarda os valores da velocidade da bola
+class Ball (val position : Position, val velocity : Velocity) // propriedades da bola
 
+// Desenha a bola numa posição atual
 fun Ball.draw(canvas: Canvas) {
 
     canvas.drawCircle(position.x, position.y, radius, color)
 
 }
 
+// Movimenta a bola e define colisões entre a bola, raquete e paredes
 fun Ball.move(xRacket : Int, area: Area): Ball {
     if (position.x + velocity.dx !in 0..area.width) {
         val newVelocity = newVelocity(-velocity.dx, velocity.dy)
-        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity)
+        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // se a bola não estiver entre 0..400 (paredes laterais), apenas inverte a direção  no eixo x
     }
 
     if (position.y + velocity.dy < 0) {
         val newVelocity = newVelocity(velocity.dx,-velocity.dy)
-        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity)
+        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // se a bola estiver fora do "teto", apenas inverter a direção no eixo y
 
     }
 
     if(position.x + velocity.dx > xRacket - RACKET_LENGTH/2 && position.x + velocity.dx < xRacket + RACKET_LENGTH/2 && position.y + velocity.dy > (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() && position.y + velocity.dy < (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() + 10) {
-        val newVelocity = newVelocity(velocity.dx + area(xRacket),-velocity.dy)
+        val newVelocity = newVelocity(velocity.dx + area(xRacket),-velocity.dy) // verifica se a bola colide com a raquete e caso seja verdadeiro, inverte e ajusta a direção dependendo do local do impacto
 
-        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity)
+        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // atualiza a bola com a nova velocidade
     }
 
     return Ball(Position(position.x + velocity.dx, position.y + velocity.dy), velocity)
@@ -35,16 +37,16 @@ fun Ball.move(xRacket : Int, area: Area): Ball {
 fun Ball.area(racketX : Int): Int {
 
     val distance = position.x - racketX // calcula a àrea em que a bola se encontra
-    val newDx = if(abs(distance) < 20) 0 else if (abs(distance) < 35) 1 else 3
+    val newDx = if(abs(distance) < 20) 0 else if (abs(distance) < 35) 1 else 3 // verifica a nova velocidade dependendo do local onde houve o impacto da bola na raquete
 
-    return newDx * if(distance<0) -1 else 1
+    return newDx * if(distance<0) -1 else 1 // retorna uma nova velocidade negativa, caso a distância da colisão seja negativa e retorna uma nova velocidade positiva caso a distância seja positiva
 
 }
 
 fun randomBall (): Ball {
-    return Ball(Position(width/2, height/2), Velocity(3, 3))
+    return Ball(Position(width/2, height/2), Velocity(3, 3)) // retorna uma nova bola aleatória
 }
 
 fun newVelocity (newDx : Int, newDy : Int): Velocity {
-    return Velocity(newDx.coerceIn(DX_RANGE), newDy.coerceIn(DY_RANGE))
+    return Velocity(newDx.coerceIn(DX_RANGE), newDy.coerceIn(DY_RANGE)) // cria uma nova velocidade dentro dos limites
 }
