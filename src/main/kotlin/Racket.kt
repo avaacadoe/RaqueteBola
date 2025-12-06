@@ -18,3 +18,7 @@ fun Racket.move(newX : Int, area: Area): Racket {
 
     return Racket(newX) // se nenhuma das proposições for verdadeira, apenas retorna a nova posição em que a raquete se encontra
 }
+
+fun Racket.getPosition() : Position {
+    return Position(x, (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt()-10)
+}

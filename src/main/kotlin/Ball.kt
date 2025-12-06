@@ -43,9 +43,6 @@ fun Ball.area(racketX : Int): Int {
 
 }
 
-fun randomBall (): Ball {
-    return Ball(Position((width/10..(width*0.9).toInt()).random(), (height*0.9).toInt()), Velocity(DX_RANGE.random(), -4)) // retorna uma nova bola aleatória
-}
 
 fun newVelocity (newDx : Int, newDy : Int): Velocity {
     return Velocity(newDx.coerceIn(DX_RANGE), newDy.coerceIn(DY_RANGE)) // cria uma nova velocidade dentro dos limites
