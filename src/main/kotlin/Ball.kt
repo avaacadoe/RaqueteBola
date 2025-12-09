@@ -12,26 +12,29 @@ fun Ball.draw(canvas: Canvas) {
 
 }
 
+fun Ball.nextX() : Int = position.x + velocity.dx
+fun Ball.nextY() : Int = position.y + velocity.dy
+
 // Movimenta a bola e define colisões entre a bola, raquete e paredes
-fun Ball.move(xRacket : Int, area: Area): Ball {
-    if (position.x + velocity.dx !in 0..area.width) {
+fun Ball.move(xRacket : Int, area: Area, listBlocks : List<Block> ): Ball {
+    if (nextX() !in 0..area.width) {
         val newVelocity = newVelocity(-velocity.dx, velocity.dy)
         return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // se a bola não estiver entre 0..400 (paredes laterais), apenas inverte a direção  no eixo x
     }
 
-    if (position.y + velocity.dy < 0) {
+    if (nextY() < 0) {
         val newVelocity = newVelocity(velocity.dx,-velocity.dy)
         return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // se a bola estiver fora do "teto", apenas inverter a direção no eixo y
-
     }
 
-    if(position.x + velocity.dx > xRacket - RACKET_LENGTH/2 && position.x + velocity.dx < xRacket + RACKET_LENGTH/2 && position.y + velocity.dy > (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() && position.y + velocity.dy < (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() + 10) {
+    if(nextX() > xRacket - RACKET_LENGTH/2 && nextX() < xRacket + RACKET_LENGTH/2 && nextY() > (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() && nextY() < (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() + 10) {
         val newVelocity = newVelocity(velocity.dx + area(xRacket),-velocity.dy) // verifica se a bola colide com a raquete e caso seja verdadeiro, inverte e ajusta a direção dependendo do local do impacto
 
         return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // atualiza a bola com a nova velocidade
     }
 
-    return Ball(Position(position.x + velocity.dx, position.y + velocity.dy), velocity)
+
+    return Ball(Position(nextX(), nextY()), velocity)
 }
 
 fun Ball.area(racketX : Int): Int {
