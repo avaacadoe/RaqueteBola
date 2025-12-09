@@ -38,7 +38,7 @@ fun Ball.move(game: Game): Game {
             val newVelocity = newVelocity(-velocity.dx,-velocity.dy)
 
             val novoBloco = it.collide()
-            print(novoBloco.livesLeft)
+
             return Game(game.racket, game.area, game.level.updateBlock(it, novoBloco), Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity), game.hasStarted, game.ballsLeft)
         }
     }

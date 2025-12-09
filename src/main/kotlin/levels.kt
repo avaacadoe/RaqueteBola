@@ -1,5 +1,4 @@
 import pt.isel.canvas.Canvas
-import pt.isel.canvas.LEFT_CODE
 import pt.isel.canvas.WHITE
 
 data class Level (val blockList : List<Block>, val points: Int = 0)
@@ -20,9 +19,17 @@ fun Level.updateBlock(antigo: Block, novo: Block) : Level {
     return Level(blockList-antigo+novo, points)
 }
 
-fun get_level(id: Int) : Level  {
+fun bGRAY(x: Int, y: Int) = Block(0, GridPosition(x, y), 2)
+fun bNORMAL(points: Int, x: Int, y: Int) = Block(points, GridPosition(x, y), 1)
+fun bINDESTRUCTIBLE(x: Int, y: Int) = Block(-1, GridPosition(x, y), 1, true)
+
+fun getLevel(id: Int) : Level  {
     return when (id) {
-        1 -> Level(List(1) {Block(WHITE, 10, GridPosition(4, 10), 2)})
+        1 -> Level(listOf(
+            bGRAY(4, 5),
+            bNORMAL(7, 3, 5),
+            bINDESTRUCTIBLE(6, 2)
+        ))
         else -> Level(listOf<Block>())
     }
 }
