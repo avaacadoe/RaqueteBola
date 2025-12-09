@@ -4,7 +4,7 @@ import pt.isel.canvas.Canvas
 data class GridPosition (val x : Int, val y : Int)// guarda os valores de posição da bola
 fun GridPosition.toNormalized() : Position = Position(block_width*x, block_height*y)
 
-data class Block(val color : Int, val points : Int, val position : GridPosition, val livesLeft : Int, val undestructable : Boolean = false)
+data class Block(val color : Int, val points : Int, val position : GridPosition, val livesLeft : Int, val indestructable : Boolean = false)
 
 fun Block.draw(canvas: Canvas) {
 
@@ -14,8 +14,14 @@ fun Block.draw(canvas: Canvas) {
     canvas.drawRect(normalPosition.x, normalPosition.y, block_width, block_height, BLACK, 1)
 }
 
-fun Block.collided(ball : Ball) : Boolean {
+fun Block.hasCollided(ball : Ball) : Boolean {
     val normal = position.toNormalized()
-    return ball.nextX() in normal.x..normal.x+block_width && ball.nextY() in normal.y..normal.y+block_height
+    return ball.nextX() in normal.x ..normal.x+block_width && ball.nextY() in normal.y..normal.y+block_height
 }
 
+fun Block.collide(): Block {
+    if (!indestructable) {
+        return Block(color, points, position, livesLeft-1, false)
+    }
+    return this
+}

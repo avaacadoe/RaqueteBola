@@ -1,7 +1,9 @@
 import pt.isel.canvas.Canvas
+import pt.isel.canvas.LEFT_CODE
 import pt.isel.canvas.WHITE
 
 data class Level (val blockList : List<Block>, val points: Int = 0)
+
 fun Level.draw (canvas: Canvas) {
 
     canvas.drawText((width*0.5).toInt(), (height*0.95).toInt(), points.toString(), WHITE)
@@ -9,6 +11,13 @@ fun Level.draw (canvas: Canvas) {
     blockList.forEach{
         it.draw(canvas)
     }
+}
+
+fun Level.updateBlock(antigo: Block, novo: Block) : Level {
+    if(novo.livesLeft == 0) {
+        return Level(blockList-antigo, points+antigo.points)
+    }
+    return Level(blockList-antigo+novo, points)
 }
 
 fun get_level(id: Int) : Level  {

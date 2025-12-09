@@ -16,25 +16,35 @@ fun Ball.nextX() : Int = position.x + velocity.dx
 fun Ball.nextY() : Int = position.y + velocity.dy
 
 // Movimenta a bola e define colisões entre a bola, raquete e paredes
-fun Ball.move(xRacket : Int, area: Area, listBlocks : List<Block> ): Ball {
-    if (nextX() !in 0..area.width) {
+fun Ball.move(game: Game): Game {
+    if (nextX() !in 0..game.area.width) {
         val newVelocity = newVelocity(-velocity.dx, velocity.dy)
-        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // se a bola não estiver entre 0..400 (paredes laterais), apenas inverte a direção  no eixo x
+        return game.changeBall(Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity)) // se a bola não estiver entre 0..400 (paredes laterais), apenas inverte a direção  no eixo x
     }
 
     if (nextY() < 0) {
         val newVelocity = newVelocity(velocity.dx,-velocity.dy)
-        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // se a bola estiver fora do "teto", apenas inverter a direção no eixo y
+        return game.changeBall(Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity)) // se a bola estiver fora do "teto", apenas inverter a direção no eixo y
     }
 
-    if(nextX() > xRacket - RACKET_LENGTH/2 && nextX() < xRacket + RACKET_LENGTH/2 && nextY() > (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() && nextY() < (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() + 10) {
-        val newVelocity = newVelocity(velocity.dx + area(xRacket),-velocity.dy) // verifica se a bola colide com a raquete e caso seja verdadeiro, inverte e ajusta a direção dependendo do local do impacto
+    if(nextX() > game.racket.x - RACKET_LENGTH/2 && nextX() < game.racket.x + RACKET_LENGTH/2 && nextY() > (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() && nextY() < (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() + 10) {
+        val newVelocity = newVelocity(velocity.dx + area(game.racket.x),-velocity.dy) // verifica se a bola colide com a raquete e caso seja verdadeiro, inverte e ajusta a direção dependendo do local do impacto
 
-        return Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity) // atualiza a bola com a nova velocidade
+        return game.changeBall(Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity)) // atualiza a bola com a nova velocidade
+    }
+
+    game.level.blockList.forEach {
+        if(it.hasCollided(this)) {
+            val newVelocity = newVelocity(-velocity.dx,-velocity.dy)
+
+            val novoBloco = it.collide()
+            print(novoBloco.livesLeft)
+            return Game(game.racket, game.area, game.level.updateBlock(it, novoBloco), Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity), game.hasStarted, game.ballsLeft)
+        }
     }
 
 
-    return Ball(Position(nextX(), nextY()), velocity)
+    return game.changeBall(Ball(Position(nextX(), nextY()), velocity))
 }
 
 fun Ball.area(racketX : Int): Int {

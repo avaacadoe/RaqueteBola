@@ -30,13 +30,14 @@ fun Game.draw(canvas: Canvas) {
 
 fun Game.start () : Game = Game(racket, area,  level,Ball(ball.position, Velocity(DX_RANGE.random(),-4)), true,ballsLeft)
 
+fun Game.changeBall(ball: Ball) : Game = Game(racket, area, level, ball, hasStarted, ballsLeft)
 
 fun Game.updateBall() : Game {
     return if(!hasStarted) {
-        Game(racket, area, level,Ball(racket.getPosition(), Velocity(0,0)), false,ballsLeft)
+        changeBall(Ball(racket.getPosition(), Velocity(0,0)))
     }
     else {
-        Game(racket, area, level, ball.move(racket.x, area), true, ballsLeft)
+        ball.move(this)
     }
 }
 
