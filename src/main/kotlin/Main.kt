@@ -21,7 +21,7 @@ data class Area(val width : Int, val height : Int)
 fun main() {
 
     onStart {
-        var game = Game(Racket(width/2), Area(width, height), getLevel(1)) // ponto em que o jogo é atualizado. tenho de criar uma nova bola
+        var game = Game(Racket(width/2), Area(width, height), getLevel(2)) // ponto em que o jogo é atualizado. tenho de criar uma nova bola
         val canvas = Canvas(game.area.width, game.area.height, BLACK) // desenha o canva
 
 
