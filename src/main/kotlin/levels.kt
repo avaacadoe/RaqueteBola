@@ -23,19 +23,32 @@ fun blockGRAY(x: Int, y: Int) = Block(0, GridPosition(x, y), 2)
 fun blockNORMAL(points: Int, x: Int, y: Int) = Block(points, GridPosition(x, y), 1) //  pOINTS CAN BE FROM 1 TO 9 EXCLUDING 5
 fun blockINDESTRUCTIBLE(x: Int, y: Int) = Block(-1, GridPosition(x, y), 1, true)
 
+
+// FUNC <listadePointos: Lista de Int, x, y: Retorna Lista de Blocos, Para cada pontos crie 3 blocos um ao lado do outro, adicione 1 ao x dependendo do id, e cada ponto no y diferente (+1)
+
+fun gerarCluster(listPoints : List<Int>, x : Int, y : Int) : List<Block> {
+    var y_c = y
+    var list = listOf<Block>()
+    listPoints.forEach {
+        list = list + blockNORMAL(it,x,y_c)
+        list = list + blockNORMAL(it,x + 1, y_c)
+        list = list + blockNORMAL(it, x + 2, y_c)
+        y_c++
+    }
+
+    return list
+}
+
+
+
+
 fun getLevel(id: Int) : Level  {
     return when (id) {
         1 -> Level(
-            listOf(
-            blockNORMAL(9,1,2),
-            blockNORMAL(8,1,3),
-            blockNORMAL(7, 1,4),
-            blockNORMAL(6,1, 5),
-            blockNORMAL(4,1,6),
-            blockNORMAL(3,1, 7),
-            blockNORMAL(2,1,8),
-
-                ));
+            gerarCluster(listOf(9,8,7,6,4,3,2,1), 1, 2) +
+                    gerarCluster(listOf(9,8,7,6,4,3,2,1), 5, 2) +
+                    gerarCluster(listOf(9,8,7,6,4,3,2,1), 9, 2)
+        );
 
         else -> Level(listOf<Block>())
     }
