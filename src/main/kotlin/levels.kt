@@ -5,7 +5,7 @@ data class Level (val blockList : List<Block>, val points: Int = 0)
 
 fun Level.draw (canvas: Canvas) {
 
-    canvas.drawText((width*0.5).toInt(), (height*0.95).toInt(), points.toString(), WHITE)
+    canvas.drawText(width/2, (height*0.96).toInt(), points.toString(), WHITE)
 
     blockList.forEach{
         it.draw(canvas)
@@ -40,14 +40,13 @@ fun gerarCluster(listPoints : List<Int>, x : Int, y : Int) : List<Block> {
 }
 
 
-
-
 fun getLevel(id: Int) : Level  {
     return when (id) {
         1 -> Level(
             gerarCluster(listOf(9,8,7,6,4,3,2,1), 1, 2) +
-                    gerarCluster(listOf(9,8,7,6,4,3,2,1), 5, 2) +
-                    gerarCluster(listOf(9,8,7,6,4,3,2,1), 9, 2)
+                    gerarCluster(listOf(2,3,4,6,7,8,0), 5, 3) +
+                    gerarCluster(listOf(9,8,7,6,4,3,2,1), 9, 2) +
+            listOf<Block>(blockNORMAL(1,5,2 ),blockINDESTRUCTIBLE(6,2),blockNORMAL(1,7,2))
         );
 
         else -> Level(listOf<Block>())
