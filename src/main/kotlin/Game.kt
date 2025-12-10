@@ -28,7 +28,7 @@ fun Game.draw(canvas: Canvas) {
  //  canvas.drawText(width/2,(height*0.98).toInt(),ball.count().toString(),WHITE,40) // demonstra a contagem das bolas presentes no canva
 }
 
-fun Game.start () : Game = Game(racket, area,  level,Ball(ball.position, Velocity(DX_RANGE.random(),-4)), true,ballsLeft)
+fun Game.start () : Game = Game(racket, area,  level,Ball(ball.position, Velocity(0,-4)), true,ballsLeft)
 
 fun Game.changeBall(ball: Ball) : Game = Game(racket, area, level, ball, hasStarted, ballsLeft)
 

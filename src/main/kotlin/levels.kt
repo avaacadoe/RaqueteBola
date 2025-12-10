@@ -27,80 +27,16 @@ fun getLevel(id: Int) : Level  {
     return when (id) {
         1 -> Level(
             listOf(
-            blockGRAY(4, 5),
-            blockNORMAL(7, 3, 5),
-            blockINDESTRUCTIBLE(6, 2)
-        ));
-        2 -> Level(
-            listOf(
-                // ======== CAMADA DE CIMA (simétrica) ========
-                blockGRAY(5, 1),
-                blockNORMAL(9, 2, 1),
-                blockNORMAL(4, 3, 1),
-                blockINDESTRUCTIBLE(4, 1),
-                blockNORMAL(4, 9, 1),
-                blockNORMAL(9, 10, 1),
-                blockGRAY(11, 1),
+            blockNORMAL(9,1,2),
+            blockNORMAL(8,1,3),
+            blockNORMAL(7, 1,4),
+            blockNORMAL(6,1, 5),
+            blockNORMAL(4,1,6),
+            blockNORMAL(3,1, 7),
+            blockNORMAL(2,1,8),
 
-                // ======== SEGUNDA LINHA ========
-                blockNORMAL(3, 2, 2),
-                blockGRAY(3, 2),
-                blockNORMAL(7, 4, 2),
-                blockINDESTRUCTIBLE(5, 2),
-                blockINDESTRUCTIBLE(7, 2),
-                blockNORMAL(7, 8, 2),
-                blockGRAY(10, 2),
-                blockNORMAL(3, 9, 2),
+                ));
 
-                // ======== TERCEIRA LINHA (CENTRAL SUPERIOR) ========
-                blockGRAY(3, 3),
-                blockNORMAL(8, 3, 3),
-                blockNORMAL(2, 4, 3),
-                blockNORMAL(1, 5, 3),
-                blockNORMAL(1, 7, 3),
-                blockNORMAL(2, 8, 3),
-                blockNORMAL(8, 9, 3),
-                blockGRAY(10, 3),
-
-                // ======== LINHA CENTRAL (BARRA DE INDESTRUTÍVEIS) ========
-                blockINDESTRUCTIBLE(3, 4),
-                blockINDESTRUCTIBLE(4, 4),
-                blockNORMAL(6, 5, 4),
-                blockGRAY(6, 4),
-                blockNORMAL(6, 7, 4),
-                blockINDESTRUCTIBLE(8, 4),
-                blockINDESTRUCTIBLE(9, 4),
-
-                // ======== TERCEIRA LINHA (CENTRAL INFERIOR) ========
-                blockGRAY(3, 5),
-                blockNORMAL(8, 3, 5),
-                blockNORMAL(2, 4, 5),
-                blockNORMAL(1, 5, 5),
-                blockNORMAL(1, 7, 5),
-                blockNORMAL(2, 8, 5),
-                blockNORMAL(8, 9, 5),
-                blockGRAY(10, 5),
-
-                // ======== SEGUNDA LINHA (INFERIOR) ========
-                blockNORMAL(3, 2, 6),
-                blockGRAY(3, 6),
-                blockNORMAL(7, 4, 6),
-                blockINDESTRUCTIBLE(5, 6),
-                blockINDESTRUCTIBLE(7, 6),
-                blockNORMAL(7, 8, 6),
-                blockGRAY(10, 6),
-                blockNORMAL(3, 9, 6),
-
-                // ======== CAMADA DE BAIXO ========
-                blockGRAY(5, 7),
-                blockNORMAL(9, 2, 7),
-                blockNORMAL(4, 3, 7),
-                blockINDESTRUCTIBLE(4, 7),
-                blockNORMAL(4, 9, 7),
-                blockNORMAL(9, 10, 7),
-                blockGRAY(11, 7)
-            )
-        );
         else -> Level(listOf<Block>())
     }
 }
