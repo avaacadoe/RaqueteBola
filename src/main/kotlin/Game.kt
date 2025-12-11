@@ -22,7 +22,7 @@ fun Game.draw(canvas: Canvas) {
     racket.draw(canvas) // desenha a raquete
     level.draw(canvas)
 
-    for (i in 1..ballsLeft) {
+    for (i in 1..ballsLeft-1) {
         canvas.drawCircle(5 + 15*i, area.height - 15, radius, color)
     }
  //  canvas.drawText(width/2,(height*0.98).toInt(),ball.count().toString(),WHITE,40) // demonstra a contagem das bolas presentes no canva
