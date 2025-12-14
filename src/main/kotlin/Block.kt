@@ -11,7 +11,7 @@ import pt.isel.canvas.YELLOW
 data class GridPosition (val x : Int, val y : Int)// guarda os valores de posição da bola
 fun GridPosition.toNormalized() : Position = Position(BLOCK_WIDTH*x, BLOCK_HEIGHT*y)
 
-data class Block(val points : Int, val position : GridPosition, val livesLeft : Int, val indestructable : Boolean = false)
+data class Block(val points : Int, val position : GridPosition, val livesLeft : Int, val indestructible : Boolean = false)
 
 fun Block.draw(canvas: Canvas) {
 
@@ -38,7 +38,7 @@ fun Block.getColor() : Int {
 }
 
 fun Block.collide(): Block {
-    if (!indestructable) {
+    if (!indestructible) {
         return Block(points, position, livesLeft-1, false)
     }
     return this

@@ -4,9 +4,6 @@ import pt.isel.canvas.WHITE
 data class Level (val blockList : List<Block>, val points: Int = 0)
 
 fun Level.draw (canvas: Canvas) {
-
-    canvas.drawText(WIDTH/2, (HEIGHT*0.96).toInt(), points.toString(), WHITE)
-
     blockList.forEach{
         it.draw(canvas)
     }
@@ -41,12 +38,10 @@ fun gerarCluster(listPoints : List<Int>, x : Int, y : Int) : List<Block> {
 
 fun getLevel(id: Int) : Level  {
     return when (id) {
-        1 -> Level(
-            gerarCluster(listOf(9,8,7,6,4,3,2,1), 1, 2) +
+        1 -> Level(gerarCluster(listOf(9,8,7,6,4,3,2,1), 1, 2) +
                     gerarCluster(listOf(2,3,4,6,7,8), 5, 3) +
-
                     gerarCluster(listOf(9,8,7,6,4,3,2,1), 9, 2) +
-            listOf<Block>(blockNORMAL(1,5,2 ),blockINDESTRUCTIBLE(6,2),blockNORMAL(1,7,2),blockGRAY(5,9),blockGRAY(6,9),blockGRAY(7,9))
+                    listOf<Block>(blockNORMAL(1,5,2 ),blockINDESTRUCTIBLE(6,2),blockNORMAL(1,7,2),blockGRAY(5,9),blockGRAY(6,9),blockGRAY(7,9))
         );
 
         else -> Level(listOf<Block>())

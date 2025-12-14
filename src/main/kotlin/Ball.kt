@@ -7,9 +7,7 @@ class Ball (val position : Position, val velocity : Velocity) // propriedades da
 
 // Desenha a bola numa posição atual
 fun Ball.draw(canvas: Canvas) {
-
     canvas.drawCircle(position.x, position.y, RADIUS, BALL_CALOR)
-
 }
 
 fun Ball.nextX() : Int = position.x + velocity.dx
