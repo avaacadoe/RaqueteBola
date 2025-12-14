@@ -26,8 +26,11 @@ fun main() {
 
 
         canvas.onTimeProgress(MILLISECONDS_BETWEEN_FRAMES) {
-            game = game.updateBall()
             game.draw(canvas) // desenha o canvas atualizado no game
+        }
+
+        canvas.onTimeProgress(MILLISECONDS_BETWEEN_FRAMES) {
+            game = game.updateBall()
         }
 
         canvas.onMouseMove { me ->

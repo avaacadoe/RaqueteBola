@@ -17,8 +17,8 @@ fun Block.draw(canvas: Canvas) {
 
     val normalPosition = position.toNormalized()
 
-    canvas.drawRect(normalPosition.x, normalPosition.y, BLOCK_WIDTH, BLOCK_HEIGHT, getColor())
-    canvas.drawRect(normalPosition.x, normalPosition.y, BLOCK_WIDTH, BLOCK_HEIGHT, BLACK, 2)
+    canvas.drawRect(normalPosition.x, normalPosition.y, BLOCK_WIDTH, BLOCK_HEIGHT, BLACK)
+    canvas.drawRect(normalPosition.x + 2, normalPosition.y + 2, BLOCK_WIDTH - 2, BLOCK_HEIGHT - 2, getColor())
 }
 
 fun Block.getColor() : Int {
