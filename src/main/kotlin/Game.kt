@@ -1,5 +1,7 @@
 import pt.isel.canvas.Canvas
 import pt.isel.canvas.WHITE
+import kotlin.math.max
+import kotlin.math.roundToInt
 
 data class Area(val width : Int, val height : Int)
 data class Game(val racket : Racket, val area : Area, val level : Level, val ball : Ball = Ball(Position(208,300), Velocity(0,0)), val hasStarted : Boolean = false, val ballsLeft :Int = 6, val currentLevel: Int = 1) // guarda informação acerca de todos os elementos do jogo
@@ -36,13 +38,19 @@ fun Game.start () : Game = Game(racket, area,  level,Ball(ball.position, Velocit
 
 fun Game.changeBall(ball: Ball) : Game = Game(racket, area, level, ball, hasStarted, ballsLeft, currentLevel)
 
-fun Game.updateBall() : Game {
-    return if(!hasStarted) {
-        changeBall(Ball(racket.getPosition(), Velocity(0,0)))
+fun Game.updateBall(dtSeconds: Double) : Game {
+    val baseMsPerFrame = MILLISECONDS_BETWEEN_FRAMES.toDouble()
+    val steps = max(1, ((dtSeconds * 1000.0) / baseMsPerFrame).roundToInt())
+
+    var g = this
+    repeat(steps) {
+        g = if (!g.hasStarted) {
+            g.changeBall(Ball(g.racket.getPosition(), Velocity(0, 0)))
+        } else {
+            g.ball.move(g)
+        }
     }
-    else {
-        ball.move(this)
-    }
+    return g
 }
 
 fun Game.nextLevel() : Game {

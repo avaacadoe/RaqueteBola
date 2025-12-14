@@ -8,7 +8,7 @@ const val RADIUS = 7
 const val DIAMETER = RADIUS*RADIUS
 const val BALL_CALOR = CYAN
 
-const val MILLISECONDS_BETWEEN_FRAMES = 5
+const val MILLISECONDS_BETWEEN_FRAMES = 7
 
 val DX_RANGE = -6..6
 val DY_RANGE = -4..4
@@ -24,13 +24,14 @@ fun main() {
         var game = Game(Racket(WIDTH/2), Area(WIDTH, HEIGHT), getLevel(1)) // ponto em que o jogo é atualizado. tenho de criar uma nova bola
         val canvas = Canvas(game.area.width, game.area.height, BLACK) // desenha o canva
 
-
+        var lastTime = System.nanoTime()
         canvas.onTimeProgress(MILLISECONDS_BETWEEN_FRAMES) {
+            val now = System.nanoTime()
+            val dt = (now - lastTime) / 1_000_000_000.0
+            lastTime = now
+
+            game = game.updateBall(dt)
             game.draw(canvas) // desenha o canvas atualizado no game
-        }
-
-        canvas.onTimeProgress(MILLISECONDS_BETWEEN_FRAMES) {
-            game = game.updateBall()
         }
 
         canvas.onMouseMove { me ->
