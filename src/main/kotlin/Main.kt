@@ -1,13 +1,13 @@
 import pt.isel.canvas.*
 
-const val block_width = 32// largura do tijolo
-const val block_height = 15
-const val width = block_width*13
-const val height = 600
-const val radius = 7
-const val color = CYAN
+const val BLOCK_WIDTH = 32// largura do tijolo
+const val BLOCK_HEIGHT = 15
+const val WIDTH = BLOCK_WIDTH*13
+const val HEIGHT = 600
+const val RADIUS = 7
+const val DIAMETER = RADIUS*RADIUS
+const val BALL_CALOR = CYAN
 
-const val BALL_SPAWN_TIME =  5000
 const val MILLISECONDS_BETWEEN_FRAMES = 5
 
 val DX_RANGE = -6..6
@@ -16,12 +16,10 @@ val DY_RANGE = -4..4
 const val RACKET_LENGTH = 60
 const val RACKET_Y_PERCENTAGE_ON_SCREEN = 0.9
 
-data class Area(val width : Int, val height : Int)
-
 fun main() {
 
     onStart {
-        var game = Game(Racket(width/2), Area(width, height), getLevel(1)) // ponto em que o jogo é atualizado. tenho de criar uma nova bola
+        var game = Game(Racket(WIDTH/2), Area(WIDTH, HEIGHT), getLevel(1)) // ponto em que o jogo é atualizado. tenho de criar uma nova bola
         val canvas = Canvas(game.area.width, game.area.height, BLACK) // desenha o canva
 
 

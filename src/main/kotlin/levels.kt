@@ -5,7 +5,7 @@ data class Level (val blockList : List<Block>, val points: Int = 0)
 
 fun Level.draw (canvas: Canvas) {
 
-    canvas.drawText(width/2, (height*0.96).toInt(), points.toString(), WHITE)
+    canvas.drawText(WIDTH/2, (HEIGHT*0.96).toInt(), points.toString(), WHITE)
 
     blockList.forEach{
         it.draw(canvas)

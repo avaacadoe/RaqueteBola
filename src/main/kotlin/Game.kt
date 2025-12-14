@@ -1,7 +1,7 @@
 import pt.isel.canvas.Canvas
-import pt.isel.canvas.WHITE
 
-data class Game(val racket : Racket, val area : Area,val level : Level , val ball : Ball = Ball(Position(208,300), Velocity(0,0)), val hasStarted : Boolean = false, val ballsLeft :Int = 6) // guarda informação acerca de todos os elementos do jogo
+data class Area(val width : Int, val height : Int)
+data class Game(val racket : Racket, val area : Area, val level : Level , val ball : Ball = Ball(Position(208,300), Velocity(0,0)), val hasStarted : Boolean = false, val ballsLeft :Int = 6) // guarda informação acerca de todos os elementos do jogo
 
 fun Game.moveRacket(x: Int): Game {
     return Game(racket.move(x, area), area, level, ball, hasStarted, ballsLeft) // retorna a nova posição da raquete
@@ -22,8 +22,8 @@ fun Game.draw(canvas: Canvas) {
     racket.draw(canvas) // desenha a raquete
     level.draw(canvas)
 
-    for (i in 1..ballsLeft-1) {
-        canvas.drawCircle(5 + 15*i, area.height - 15, radius, color)
+    for (i in 1..ballsLeft) {
+        canvas.drawCircle(5 + 15*i, area.height - 15, RADIUS, BALL_CALOR)
     }
  //  canvas.drawText(width/2,(height*0.98).toInt(),ball.count().toString(),WHITE,40) // demonstra a contagem das bolas presentes no canva
 }

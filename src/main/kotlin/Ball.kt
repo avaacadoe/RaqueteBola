@@ -8,7 +8,7 @@ class Ball (val position : Position, val velocity : Velocity) // propriedades da
 // Desenha a bola numa posição atual
 fun Ball.draw(canvas: Canvas) {
 
-    canvas.drawCircle(position.x, position.y, radius, color)
+    canvas.drawCircle(position.x, position.y, RADIUS, BALL_CALOR)
 
 }
 
@@ -27,15 +27,15 @@ fun Ball.move(game: Game): Game {
         return game.changeBall(Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity)) // se a bola estiver fora do "teto", apenas inverter a direção no eixo y
     }
 
-    if(nextX() > game.racket.x - RACKET_LENGTH/2 && nextX() < game.racket.x + RACKET_LENGTH/2 && nextY() > (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() && nextY() < (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt() + 10) {
+    if(collidedWithObj(game.racket.getTopRightPosition(), RACKET_LENGTH, 10)) {
         val newVelocity = newVelocity(velocity.dx + area(game.racket.x),-velocity.dy) // verifica se a bola colide com a raquete e caso seja verdadeiro, inverte e ajusta a direção dependendo do local do impacto
 
         return game.changeBall(Ball(Position(position.x + newVelocity.dx, position.y + newVelocity.dy), newVelocity)) // atualiza a bola com a nova velocidade
     }
 
     game.level.blockList.forEach {
-        if(it.hasCollided(this)) {
-            val newVelocity = newVelocity(-velocity.dx,-velocity.dy)
+        if(collidedWithObj(it.position.toNormalized(), BLOCK_WIDTH, BLOCK_HEIGHT)) {
+            val newVelocity = newVelocity(velocity.dx,-velocity.dy)
 
             val novoBloco = it.collide()
 
@@ -56,6 +56,16 @@ fun Ball.area(racketX : Int): Int {
 
 }
 
+fun Ball.collidedWithObj(objPos: Position, objWidth: Int, objHeight: Int): Boolean {
+    val closestX = position.x.coerceIn(objPos.x, objPos.x + objWidth)
+    val closestY = position.y.coerceIn(objPos.y, objPos.y + objHeight)
+
+    val distanceX = position.x - closestX
+    val distanceY = position.y - closestY
+
+    val distanceSquared = distanceX * distanceX + distanceY * distanceY
+    return distanceSquared < DIAMETER
+}
 
 fun newVelocity (newDx : Int, newDy : Int): Velocity {
     return Velocity(newDx.coerceIn(DX_RANGE), newDy.coerceIn(DY_RANGE)) // cria uma nova velocidade dentro dos limites

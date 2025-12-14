@@ -6,7 +6,7 @@ class Racket(val x : Int)
 
 // Desenha a raquete com as suas propriedades
 fun Racket.draw(canvas : Canvas) {
-    canvas.drawRect(x-RACKET_LENGTH/2, (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt(),RACKET_LENGTH,0,WHITE, 10)
+    canvas.drawRect(x-RACKET_LENGTH/2, (HEIGHT*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt(),RACKET_LENGTH,0,WHITE, 10)
 
 }
 
@@ -20,5 +20,9 @@ fun Racket.move(newX : Int, area: Area): Racket {
 }
 
 fun Racket.getPosition() : Position {
-    return Position(x, (height*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt()-10)
+    return Position(x, (HEIGHT*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt()-10)
+}
+
+fun Racket.getTopRightPosition() : Position {
+    return Position(x-RACKET_LENGTH/2, (HEIGHT*RACKET_Y_PERCENTAGE_ON_SCREEN).toInt())
 }

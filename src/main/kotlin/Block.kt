@@ -9,7 +9,7 @@ import pt.isel.canvas.WHITE
 import pt.isel.canvas.YELLOW
 
 data class GridPosition (val x : Int, val y : Int)// guarda os valores de posição da bola
-fun GridPosition.toNormalized() : Position = Position(block_width*x, block_height*y)
+fun GridPosition.toNormalized() : Position = Position(BLOCK_WIDTH*x, BLOCK_HEIGHT*y)
 
 data class Block(val points : Int, val position : GridPosition, val livesLeft : Int, val indestructable : Boolean = false)
 
@@ -17,8 +17,8 @@ fun Block.draw(canvas: Canvas) {
 
     val normalPosition = position.toNormalized()
 
-    canvas.drawRect(normalPosition.x, normalPosition.y, block_width, block_height, getColor())
-    canvas.drawRect(normalPosition.x, normalPosition.y, block_width, block_height, BLACK, 2)
+    canvas.drawRect(normalPosition.x, normalPosition.y, BLOCK_WIDTH, BLOCK_HEIGHT, getColor())
+    canvas.drawRect(normalPosition.x, normalPosition.y, BLOCK_WIDTH, BLOCK_HEIGHT, BLACK, 2)
 }
 
 fun Block.getColor() : Int {
@@ -35,11 +35,6 @@ fun Block.getColor() : Int {
         -1 -> 0xFFD700;
         else -> 0x555;
     }
-}
-
-fun Block.hasCollided(ball : Ball) : Boolean {
-    val normal = position.toNormalized()
-    return ball.nextX() in normal.x ..normal.x+block_width && ball.nextY() in normal.y..normal.y+block_height
 }
 
 fun Block.collide(): Block {
